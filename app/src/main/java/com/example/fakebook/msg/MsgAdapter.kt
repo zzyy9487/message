@@ -12,11 +12,11 @@ class MsgAdapter:RecyclerView.Adapter<MsgAdapter.ViewHolder>() {
     var msgList = mutableListOf<Msg>()
     private var itemClickListener: clickedListener? = null
     var userid = 0
+    var list = mutableListOf<Likes>()
 
     interface clickedListener{
-        fun addGood()
-        fun delGood()
-        fun showMsg()
+        fun addGood(likeId: Int)
+        fun delGood(likeId: Int)
     }
 
     fun setclickedListener(checkedListener: clickedListener){
@@ -48,7 +48,11 @@ class MsgAdapter:RecyclerView.Adapter<MsgAdapter.ViewHolder>() {
         val message = itemView.msg_total2
         val middle = itemView.middlelayout
         val left_good = itemView.leftlayout
+        val goodphoto = itemView.btn_good_send
+        val good = itemView.good
         val right_message = itemView.rightlayout
+        val msgphoto = itemView.btn_msg_show
+        val msgmsg = itemView.msgmsg
 
         fun bindViewHolder(msg: Msg){
 
@@ -76,13 +80,25 @@ class MsgAdapter:RecyclerView.Adapter<MsgAdapter.ViewHolder>() {
 
 
             left_good.setOnClickListener {
-
+                list = msg.likes
+                for (i in 0 until list.size){
+                    if (list[i].user_id == userid){
+                        itemClickListener?.delGood(list[i].id)
+                        return@setOnClickListener
+                    }
+                }
+                itemClickListener?.addGood(msg.id)
             }
+
+            goodphoto.setOnClickListener { left_good.performClick() }
+            good.setOnClickListener { left_good.performClick() }
 
             right_message.setOnClickListener {
 
             }
 
+            msgphoto.setOnClickListener { right_message.performClick() }
+            msgmsg.setOnClickListener { right_message.performClick() }
 
         }
     }
