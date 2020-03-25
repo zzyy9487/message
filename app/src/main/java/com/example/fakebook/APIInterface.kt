@@ -2,6 +2,7 @@ package com.example.fakebook
 
 import com.example.fakebook.login.LoginBody
 import com.example.fakebook.login.LoginData
+import com.example.fakebook.msg.Msg
 import com.example.fakebook.register.RegisterBody
 import com.example.fakebook.register.RegisterData
 import retrofit2.Call
@@ -20,5 +21,10 @@ interface APIInterface {
     fun login(
         @Body body:LoginBody
     ): Call<LoginData>
+
+    @GET("api/board")
+    fun getBoard(
+
+    ): Call<MutableList<Msg>>
 
 }
