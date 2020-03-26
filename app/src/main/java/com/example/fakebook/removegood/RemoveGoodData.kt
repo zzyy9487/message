@@ -1,4 +1,4 @@
 package com.example.fakebook.removegood
 
-class RemoveGoodData(val wtf: Boolean) {
+class RemoveGoodData(val status: Boolean) {
 }

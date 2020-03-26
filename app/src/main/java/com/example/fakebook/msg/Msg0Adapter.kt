@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fakebook.R
 import kotlinx.android.synthetic.main.cell_0.view.*
 
-class MsgAdapter:RecyclerView.Adapter<MsgAdapter.ViewHolder>() {
+class Msg0Adapter:RecyclerView.Adapter<Msg0Adapter.ViewHolder>() {
 
     var msgList = mutableListOf<Msg>()
     private var itemClickListener: clickedListener? = null
@@ -105,6 +105,7 @@ class MsgAdapter:RecyclerView.Adapter<MsgAdapter.ViewHolder>() {
 
     fun updateMSG(list: MutableList<Msg>){
         msgList = list
+        notifyDataSetChanged()
     }
 
     fun updateUserId(id: Int){
