@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout"
+    android:layout_marginStart="30dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/name_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/msg_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="msg"
+        app:layout_constraintStart_toEndOf="@+id/name_1"
+        app:layout_constraintTop_toTopOf="@id/name_1"/>
+
+    <TextView
+        android:id="@+id/reply_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="回覆"
+        android:textColor="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toStartOf="@+id/name_1"
+        app:layout_constraintTop_toBottomOf="@+id/name_1"/>
+
+    <TextView
+        android:id="@+id/time_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="time"
+        app:layout_constraintStart_toEndOf="@+id/reply_1"
+        app:layout_constraintTop_toTopOf="@id/reply_1"
+        app:layout_constraintBottom_toBottomOf="@+id/reply_1"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
