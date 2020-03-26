@@ -15,6 +15,7 @@ import com.example.fakebook.MsgActivity
 import com.example.fakebook.R
 import com.example.fakebook.addmsg1.AddMsg1Body
 import com.example.fakebook.addmsg1.AddMsg1Data
+import com.example.fakebook.getmsg1.GetMsg1Body
 import com.example.fakebook.getmsg1.Msg1
 import com.example.fakebook.getmsg1.Msg1Adapter
 import retrofit2.Call
@@ -31,6 +32,7 @@ class Msg1Fragment : Fragment() {
     lateinit var btn_back: ImageButton
     lateinit var msg1_send: ImageButton
     lateinit var addMsg1Body: AddMsg1Body
+    lateinit var getMsg1Body: GetMsg1Body
     val msg1Adapter = Msg1Adapter()
 
     override fun onCreateView(
@@ -65,6 +67,24 @@ class Msg1Fragment : Fragment() {
                         response: Response<AddMsg1Data>
                     ) {
                         if (response.isSuccessful){
+                            getMsg1Body = GetMsg1Body(act.msg0Number)
+                            act.apiInterface.getMSG1(getMsg1Body).enqueue(object :retrofit2.Callback<MutableList<Msg1>>{
+                                override fun onFailure(call: Call<MutableList<Msg1>>, t: Throwable) {
+                                    Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show()
+                                }
+
+                                override fun onResponse(
+                                    call: Call<MutableList<Msg1>>,
+                                    response: Response<MutableList<Msg1>>
+                                ) {
+                                    if (response.isSuccessful){
+                                        val data = response.body()
+                                        if (data != null){
+                                            act.msgViewModel.updateMsg1List(data)
+                                        }
+                                    }
+                                }
+                            })
                             act.renewData()
                             editMsg1.setText("")
                         }

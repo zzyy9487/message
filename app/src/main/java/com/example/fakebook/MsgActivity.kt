@@ -1,7 +1,9 @@
 package com.example.fakebook
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.fakebook.fragment.Msg0Fragment
@@ -81,7 +83,6 @@ class MsgActivity : AppCompatActivity() {
                     val data = response.body()
                     if (data != null) {
                         msgViewModel.updateMsg0List(data)
-                        msgViewModel.updateMsg1List(data[msg0Number].comments)
                     }
                 }
             }
