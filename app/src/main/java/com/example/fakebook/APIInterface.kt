@@ -2,6 +2,8 @@ package com.example.fakebook
 
 import com.example.fakebook.addgood.AddGoodBody
 import com.example.fakebook.addgood.AddGoodData
+import com.example.fakebook.addmsg0.AddMsg0Body
+import com.example.fakebook.addmsg0.AddMsg0Data
 import com.example.fakebook.login.LoginBody
 import com.example.fakebook.login.LoginData
 import com.example.fakebook.msg.Msg
@@ -41,5 +43,11 @@ interface APIInterface {
         @Header("Authorization") token: String,
         @Body body:RemoveGoodBody
     ): Call<RemoveGoodData>
+
+    @POST("api/storePost")
+    fun sendMSG0(
+        @Header("Authorization") token: String,
+        @Body body: AddMsg0Body
+    ): Call<AddMsg0Data>
 
 }

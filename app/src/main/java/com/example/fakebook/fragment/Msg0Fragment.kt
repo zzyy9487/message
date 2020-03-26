@@ -16,6 +16,8 @@ import com.example.fakebook.MsgActivity
 import com.example.fakebook.R
 import com.example.fakebook.addgood.AddGoodBody
 import com.example.fakebook.addgood.AddGoodData
+import com.example.fakebook.addmsg0.AddMsg0Body
+import com.example.fakebook.addmsg0.AddMsg0Data
 import com.example.fakebook.msg.Msg
 import com.example.fakebook.msg.Msg0Adapter
 import com.example.fakebook.removegood.RemoveGoodBody
@@ -35,6 +37,7 @@ class Msg0Fragment : Fragment() {
     val msg0Adapter = Msg0Adapter()
     lateinit var addGoodBody: AddGoodBody
     lateinit var removeGoodBody: RemoveGoodBody
+    lateinit var addMsg0Body: AddMsg0Body
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,12 +96,29 @@ class Msg0Fragment : Fragment() {
         })
 
         msg0_send.setOnClickListener {
+            if (!editMsg0.text.isEmpty()) {
+                msg0_send.isClickable = false
+                addMsg0Body = AddMsg0Body(act.userId.toInt(), editMsg0.text.toString())
+                act.apiInterface.sendMSG0(act.bearerToken, addMsg0Body).enqueue(object :retrofit2.Callback<AddMsg0Data>{
+                    override fun onFailure(call: Call<AddMsg0Data>, t: Throwable) {
+                        Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show()
+                    }
 
+                    override fun onResponse(
+                        call: Call<AddMsg0Data>,
+                        response: Response<AddMsg0Data>
+                    ) {
+                        if (response.isSuccessful){
+                            act.renewData()
+                            editMsg0.setText("")
+                        }
+                    }
+                })
+            }
+            msg0_send.isClickable = true
         }
 
-
-
-
+        
         return rootView
     }
 
