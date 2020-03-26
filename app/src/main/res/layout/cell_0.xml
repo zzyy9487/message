@@ -7,7 +7,7 @@
     android:layout_marginTop="2dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
-    android:background="@drawable/edittext">
+    android:background="@drawable/layout">
 
     <TextView
         android:id="@+id/name_0"
@@ -103,6 +103,8 @@
         android:id="@+id/line2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/line"
         app:layout_constraintTop_toBottomOf="@+id/middlelayout"
         app:layout_constraintStart_toStartOf="parent"

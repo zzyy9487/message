@@ -10,12 +10,11 @@ import com.example.fakebook.register.RegisterData
 import com.example.fakebook.removegood.RemoveGoodBody
 import com.example.fakebook.removegood.RemoveGoodData
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface APIInterface {
+    @Headers("Content-Type: application/json","Accept: application/json")
+
     @POST("api/signup")
     fun register(
         @Body body: RegisterBody
