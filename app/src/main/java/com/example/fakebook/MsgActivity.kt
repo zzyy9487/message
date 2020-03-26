@@ -10,6 +10,8 @@ import com.example.fakebook.fragment.Msg0Fragment
 import com.example.fakebook.fragment.Msg1Fragment
 import com.example.fakebook.fragment.Msg2Fragment
 import com.example.fakebook.msg.Msg
+import com.example.fakebook.msg.User
+import com.example.fakebook.say.Say
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +33,7 @@ class MsgActivity : AppCompatActivity() {
     val manager = this.supportFragmentManager
     var msg0Number = 0
     var msg1Number = 0
+    var sayList = mutableListOf<Say>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,61 @@ class MsgActivity : AppCompatActivity() {
                     val data = response.body()
                     if (data != null) {
                         msgViewModel.updateMsg0List(data)
+                        val user = User(0,"")
+                        for (i in 0 until data.size){
+                            if (data[i].comments_count == 0){
+                                sayList.add(
+                                    Say(data[i].id,
+                                        data[i].content,
+                                        data[i].user_id,
+                                        data[i].created_at,
+                                        data[i].likes_count,
+                                        data[i].comments_count,
+                                        data[i].user,
+                                        1
+                                    )
+                                )
+                            } else {
+                                sayList.add(
+                                    Say(data[i].id,
+                                        data[i].content,
+                                        data[i].user_id,
+                                        data[i].created_at,
+                                        data[i].likes_count,
+                                        data[i].comments_count,
+                                        data[i].user,
+                                        1
+                                    )
+                                )
+                                for (j in 0 until data[i].comments.size){
+                                    sayList.add(
+                                        Say(data[i].comments[j].id,
+                                            data[i].comments[j].content,
+                                            data[i].comments[j].user_id,
+                                            data[i].comments[j].created_at,
+                                            0,
+                                            0,
+                                            data[i].comments[j].user,
+                                            2
+                                        )
+                                    )
+                                    if (data[i].comments[j].replies.size != 0){
+                                        for (k in 0 until data[i].comments[j].replies.size){
+                                            Say(data[i].comments[j].replies[k].id,
+                                                data[i].comments[j].replies[k].content,
+                                                data[i].comments[j].replies[k].user_id,
+                                                data[i].comments[j].replies[k].created_at,
+                                                0,
+                                                0,
+                                                user,
+                                                3
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
             }
