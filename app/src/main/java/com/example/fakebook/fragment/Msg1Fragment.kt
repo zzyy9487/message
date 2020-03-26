@@ -18,6 +18,8 @@ import com.example.fakebook.addmsg1.AddMsg1Data
 import com.example.fakebook.getmsg1.GetMsg1Body
 import com.example.fakebook.getmsg1.Msg1
 import com.example.fakebook.getmsg1.Msg1Adapter
+import com.example.fakebook.getmsg2.GetMsg2Body
+import com.example.fakebook.getmsg2.Msg2
 import retrofit2.Call
 import retrofit2.Response
 
@@ -33,6 +35,7 @@ class Msg1Fragment : Fragment() {
     lateinit var msg1_send: ImageButton
     lateinit var addMsg1Body: AddMsg1Body
     lateinit var getMsg1Body: GetMsg1Body
+    lateinit var getMsg2Body: GetMsg2Body
     val msg1Adapter = Msg1Adapter()
 
     override fun onCreateView(
@@ -52,6 +55,35 @@ class Msg1Fragment : Fragment() {
             msg1Adapter.updateMSG1(newList)
         }
         act.msgViewModel.msg1List.observe(act, msg1ListOberser)
+
+        msg1Adapter.setclickedListener(object :Msg1Adapter.clickedListener{
+            override fun showMSG2(msg1id: Int) {
+                act.msg1Number = msg1id
+                act.msg2Fragment = Msg2Fragment()
+                getMsg2Body = GetMsg2Body(act.msg1Number)
+                act.apiInterface.getMSG2(getMsg2Body).enqueue(object :retrofit2.Callback<MutableList<Msg2>>{
+                    override fun onFailure(call: Call<MutableList<Msg2>>, t: Throwable) {
+                        Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<MutableList<Msg2>>,
+                        response: Response<MutableList<Msg2>>
+                    ) {
+                        if (response.isSuccessful){
+                            val data = response.body()
+                            if (data != null){
+                                act.msgViewModel.updateMsg2List(data)
+                            }
+                        }
+                    }
+                })
+                val transactionmsg2 = act.manager.beginTransaction()
+                transactionmsg2.replace(R.id.fragmentLayout, act.msg2Fragment)
+                transactionmsg2.addToBackStack(null)
+                transactionmsg2.commit()
+            }
+        })
 
         msg1_send.setOnClickListener {
             if (!editMsg1.text.isEmpty()) {
