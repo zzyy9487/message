@@ -6,6 +6,5 @@ data class Comment(var id: Int,
                    var post_id: Int,
                    var created_at: String,
                    var user: User,
-                   var replies: MutableList<Reply>,
-                   var likes: MutableList<Likes>) {
+                   var replies: MutableList<Reply>) {
 }

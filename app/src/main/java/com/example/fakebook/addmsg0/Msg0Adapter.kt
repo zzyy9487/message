@@ -1,10 +1,12 @@
-package com.example.fakebook.msg
+package com.example.fakebook.addmsg0
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakebook.R
+import com.example.fakebook.msg.Likes
+import com.example.fakebook.msg.Msg
 import kotlinx.android.synthetic.main.cell_0.view.*
 
 class Msg0Adapter:RecyclerView.Adapter<Msg0Adapter.ViewHolder>() {
@@ -17,6 +19,7 @@ class Msg0Adapter:RecyclerView.Adapter<Msg0Adapter.ViewHolder>() {
     interface clickedListener{
         fun addGood(likeId: Int)
         fun delGood(likeId: Int)
+        fun showMSG1(msg0id: Int)
     }
 
     fun setclickedListener(checkedListener: clickedListener){
@@ -94,7 +97,7 @@ class Msg0Adapter:RecyclerView.Adapter<Msg0Adapter.ViewHolder>() {
             good.setOnClickListener { left_good.performClick() }
 
             right_message.setOnClickListener {
-
+                itemClickListener?.showMSG1(msg.id)
             }
 
             msgphoto.setOnClickListener { right_message.performClick() }

@@ -27,7 +27,8 @@ class MsgActivity : AppCompatActivity() {
     lateinit var msg1Fragment: Msg1Fragment
     lateinit var msg2Fragment: Msg2Fragment
     val manager = this.supportFragmentManager
-
+    var msg0Number = 0
+    var msg1Number = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +81,7 @@ class MsgActivity : AppCompatActivity() {
                     val data = response.body()
                     if (data != null) {
                         msgViewModel.updateMsg0List(data)
+                        msgViewModel.updateMsg1List(data[msg0Number].comments)
                     }
                 }
             }

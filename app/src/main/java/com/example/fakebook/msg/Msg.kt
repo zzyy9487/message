@@ -7,6 +7,6 @@ data class Msg(var id: Int,
                var likes_count: Int,
                var comments_count: Int,
                var user: User,
-               var replies: MutableList<Reply>,
+               var comments: MutableList<Comment>,
                var likes: MutableList<Likes>) {
 }

@@ -19,7 +19,9 @@ import com.example.fakebook.addgood.AddGoodData
 import com.example.fakebook.addmsg0.AddMsg0Body
 import com.example.fakebook.addmsg0.AddMsg0Data
 import com.example.fakebook.msg.Msg
-import com.example.fakebook.msg.Msg0Adapter
+import com.example.fakebook.addmsg0.Msg0Adapter
+import com.example.fakebook.getmsg1.GetMsg1Body
+import com.example.fakebook.getmsg1.Msg1
 import com.example.fakebook.removegood.RemoveGoodBody
 import com.example.fakebook.removegood.RemoveGoodData
 import retrofit2.Call
@@ -38,6 +40,7 @@ class Msg0Fragment : Fragment() {
     lateinit var addGoodBody: AddGoodBody
     lateinit var removeGoodBody: RemoveGoodBody
     lateinit var addMsg0Body: AddMsg0Body
+    lateinit var getMsg1Body: GetMsg1Body
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,6 +96,35 @@ class Msg0Fragment : Fragment() {
                     }
                 })
             }
+
+            override fun showMSG1(msg0id: Int) {
+                act.msg0Number = msg0id
+                act.msg1Fragment = Msg1Fragment()
+                val transaction = act.manager.beginTransaction()
+                transaction.replace(R.id.fragmentLayout, act.msg1Fragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+
+                getMsg1Body = GetMsg1Body(act.msg0Number)
+                act.apiInterface.getMSG1(getMsg1Body).enqueue(object :retrofit2.Callback<MutableList<Msg1>>{
+                    override fun onFailure(call: Call<MutableList<Msg1>>, t: Throwable) {
+                        Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<MutableList<Msg1>>,
+                        response: Response<MutableList<Msg1>>
+                    ) {
+                        if (response.isSuccessful){
+                            val data = response.body()
+                            if (data != null){
+                                act.msgViewModel.updateMsg1List(data)
+                            }
+                        }
+                    }
+                })
+            }
+
         })
 
         msg0_send.setOnClickListener {
@@ -118,7 +150,7 @@ class Msg0Fragment : Fragment() {
             msg0_send.isClickable = true
         }
 
-        
+
         return rootView
     }
 
