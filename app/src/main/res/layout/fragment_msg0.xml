@@ -34,7 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/editlayout"
-        android:hint="@string/leavemsg"
+        android:hint="@string/leave"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:layout_marginStart="15dp"
