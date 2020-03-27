@@ -63,6 +63,7 @@ class Msg0Fragment : Fragment() {
 
         val sayListOberser = Observer<MutableList<Say>> { newList ->
             msg0Adapter.updateMSG(newList)
+            msg0Adapter.notifyDataSetChanged()
         }
         act.msgViewModel.sayList.observe(act, sayListOberser)
 

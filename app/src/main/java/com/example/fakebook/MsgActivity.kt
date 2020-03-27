@@ -55,97 +55,7 @@ class MsgActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiInterface = retrofit.create(APIInterface::class.java)
-        apiInterface.getBoard().enqueue(object :retrofit2.Callback<MutableList<Msg>>{
-            override fun onFailure(call: Call<MutableList<Msg>>, t: Throwable) {
-                Toast.makeText(this@MsgActivity, t.toString(), Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onResponse(
-                call: Call<MutableList<Msg>>,
-                response: Response<MutableList<Msg>>
-            ) {
-                if (response.isSuccessful){
-                    val data = response.body()
-                    if (data != null){
-//                        msgViewModel.updateMsg0List(data)
-                        val user = User(0,"")
-                        val likes = mutableListOf<Likes>()
-                        for (i in 0 until data.size){
-                            if (data[i].comments.size == 0){
-                                sayList.add(
-                                    Say(data[i].id,
-                                        data[i].content,
-                                        data[i].user_id,
-                                        data[i].created_at,
-                                        data[i].likes_count,
-                                        data[i].likes,
-                                        data[i].comments_count,
-                                        data[i].user,
-                                        1
-                                    )
-                                )
-                            } else {
-                                sayList.add(
-                                    Say(data[i].id,
-                                        data[i].content,
-                                        data[i].user_id,
-                                        data[i].created_at,
-                                        data[i].likes_count,
-                                        data[i].likes,
-                                        data[i].comments_count,
-                                        data[i].user,
-                                        1
-                                    )
-                                )
-                                for (j in 0 until data[i].comments.size){
-                                    if (data[i].comments[j].replies.size == 0){
-                                        sayList.add(
-                                            Say(data[i].comments[j].id,
-                                                data[i].comments[j].content,
-                                                data[i].comments[j].user_id,
-                                                data[i].comments[j].created_at,
-                                                data[i].id,
-                                                likes,
-                                                0,
-                                                data[i].comments[j].user,
-                                                2
-                                            )
-                                        )
-                                    } else {
-                                        sayList.add(
-                                            Say(data[i].comments[j].id,
-                                                data[i].comments[j].content,
-                                                data[i].comments[j].user_id,
-                                                data[i].comments[j].created_at,
-                                                data[i].id,
-                                                likes,
-                                                0,
-                                                data[i].comments[j].user,
-                                                2
-                                            )
-                                        )
-                                        for (k in 0 until data[i].comments[j].replies.size){
-                                            Say(data[i].comments[j].replies[k].id,
-                                                data[i].comments[j].replies[k].content,
-                                                data[i].comments[j].replies[k].user_id,
-                                                data[i].comments[j].replies[k].created_at,
-                                                data[i].comments[j].id,
-                                                likes,
-                                                0,
-                                                user,
-                                                3
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-                        msgViewModel.updateSayList(sayList)
-                    }
-                }
-            }
-        })
+        renewData()
 
     }
 
@@ -199,7 +109,7 @@ class MsgActivity : AppCompatActivity() {
                                                 data[i].comments[j].content,
                                                 data[i].comments[j].user_id,
                                                 data[i].comments[j].created_at,
-                                                0,
+                                                data[i].id,
                                                 likes,
                                                 0,
                                                 data[i].comments[j].user,
@@ -212,23 +122,25 @@ class MsgActivity : AppCompatActivity() {
                                                 data[i].comments[j].content,
                                                 data[i].comments[j].user_id,
                                                 data[i].comments[j].created_at,
-                                                0,
+                                                data[i].id,
                                                 likes,
                                                 0,
                                                 data[i].comments[j].user,
                                                 2
                                             )
                                         )
-                                        for (k in 0 until data[i].comments[j].replies.size){
-                                            Say(data[i].comments[j].replies[k].id,
-                                                data[i].comments[j].replies[k].content,
-                                                data[i].comments[j].replies[k].user_id,
-                                                data[i].comments[j].replies[k].created_at,
-                                                0,
-                                                likes,
-                                                0,
-                                                user,
-                                                3
+                                        for (k in data[i].comments[j].replies.size -1 downTo 0){
+                                            sayList.add(
+                                                Say(data[i].comments[j].replies[k].id,
+                                                    data[i].comments[j].replies[k].content,
+                                                    data[i].comments[j].replies[k].user_id,
+                                                    data[i].comments[j].replies[k].created_at,
+                                                    data[i].comments[j].id,
+                                                    likes,
+                                                    0,
+                                                    user,
+                                                    3
+                                                )
                                             )
                                         }
                                     }
