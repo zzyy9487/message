@@ -73,6 +73,7 @@ class MsgActivity : AppCompatActivity() {
                     val data = response.body()
                     if (data != null) {
 //                        msgViewModel.updateMsg0List(data)
+                        sayList.clear()
                         val user = User(0,"")
                         val likes = mutableListOf<Likes>()
                         for (i in 0 until data.size){
