@@ -19,11 +19,12 @@ import com.example.fakebook.addgood.AddGoodData
 import com.example.fakebook.addmsg0.AddMsg0Body
 import com.example.fakebook.addmsg0.AddMsg0Data
 import com.example.fakebook.msg.Msg
-import com.example.fakebook.addmsg0.Msg0Adapter
 import com.example.fakebook.getmsg1.GetMsg1Body
 import com.example.fakebook.getmsg1.Msg1
 import com.example.fakebook.removegood.RemoveGoodBody
 import com.example.fakebook.removegood.RemoveGoodData
+import com.example.fakebook.say.Say
+import com.example.fakebook.say.SayAdapter
 import retrofit2.Call
 import retrofit2.Response
 
@@ -36,7 +37,7 @@ class Msg0Fragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var editMsg0: EditText
     lateinit var msg0_send: ImageButton
-    val msg0Adapter = Msg0Adapter()
+    val msg0Adapter = SayAdapter()
     lateinit var addGoodBody: AddGoodBody
     lateinit var removeGoodBody: RemoveGoodBody
     lateinit var addMsg0Body: AddMsg0Body
@@ -55,12 +56,17 @@ class Msg0Fragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(act)
         recyclerView.adapter = msg0Adapter
 
-        val msg0ListOberser = Observer<MutableList<Msg>> { newList ->
+//        val msg0ListOberser = Observer<MutableList<Msg>> { newList ->
+//            msg0Adapter.updateMSG(newList)
+//        }
+//        act.msgViewModel.msg0List.observe(act, msg0ListOberser)
+
+        val sayListOberser = Observer<MutableList<Say>> { newList ->
             msg0Adapter.updateMSG(newList)
         }
-        act.msgViewModel.msg0List.observe(act, msg0ListOberser)
+        act.msgViewModel.sayList.observe(act, sayListOberser)
 
-        msg0Adapter.setclickedListener(object : Msg0Adapter.clickedListener{
+        msg0Adapter.setclickedListener(object : SayAdapter.clickedListener{
             override fun addGood(likeId: Int) {
                 addGoodBody = AddGoodBody(act.userId.toInt(), likeId)
                 act.apiInterface.addGood(act.bearerToken, addGoodBody).enqueue(object :retrofit2.Callback<AddGoodData>{
