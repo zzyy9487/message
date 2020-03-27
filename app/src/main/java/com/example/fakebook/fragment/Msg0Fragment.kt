@@ -131,6 +131,10 @@ class Msg0Fragment : Fragment() {
                 })
             }
 
+            override fun showMSG2fromcell(msg0id: Int, msg1id: Int) {
+
+            }
+
         })
 
         msg0_send.setOnClickListener {

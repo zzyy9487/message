@@ -104,7 +104,7 @@ class MsgActivity : AppCompatActivity() {
                                                 data[i].comments[j].content,
                                                 data[i].comments[j].user_id,
                                                 data[i].comments[j].created_at,
-                                                0,
+                                                data[i].id,
                                                 likes,
                                                 0,
                                                 data[i].comments[j].user,
@@ -117,7 +117,7 @@ class MsgActivity : AppCompatActivity() {
                                                 data[i].comments[j].content,
                                                 data[i].comments[j].user_id,
                                                 data[i].comments[j].created_at,
-                                                0,
+                                                data[i].id,
                                                 likes,
                                                 0,
                                                 data[i].comments[j].user,
@@ -129,7 +129,7 @@ class MsgActivity : AppCompatActivity() {
                                                 data[i].comments[j].replies[k].content,
                                                 data[i].comments[j].replies[k].user_id,
                                                 data[i].comments[j].replies[k].created_at,
-                                                0,
+                                                data[i].comments[j].id,
                                                 likes,
                                                 0,
                                                 user,
@@ -147,9 +147,6 @@ class MsgActivity : AppCompatActivity() {
             }
         })
 
-        bibibibi.setOnClickListener {
-            renewData()
-        }
     }
 
     fun renewData() {
