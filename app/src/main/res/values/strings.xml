@@ -8,8 +8,8 @@
     <string name="login">登入</string>
     <string name="ok">確定註冊</string>
     <string name="back">返回登入</string>
+    <string name="leave">貼文......</string>
     <string name="leavemsg">留言......</string>
+    <string name="leavereply">回覆......</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
