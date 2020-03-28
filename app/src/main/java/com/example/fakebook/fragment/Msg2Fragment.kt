@@ -96,7 +96,6 @@ class Msg2Fragment : Fragment() {
             msg2_send.isClickable = true
         }
 
-
         btn_back.setOnClickListener {
             act.onBackPressed()
         }

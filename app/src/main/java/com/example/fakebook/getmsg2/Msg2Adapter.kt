@@ -5,8 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakebook.R
-import com.example.fakebook.getmsg1.Msg1
-import kotlinx.android.synthetic.main.cell_1.view.*
+import kotlinx.android.synthetic.main.cell_3.view.*
 
 class Msg2Adapter:RecyclerView.Adapter<Msg2Adapter.ViewHolder>() {
 
@@ -14,7 +13,7 @@ class Msg2Adapter:RecyclerView.Adapter<Msg2Adapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_1, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_3, parent, false)
         return ViewHolder(view)
     }
 
@@ -30,16 +29,15 @@ class Msg2Adapter:RecyclerView.Adapter<Msg2Adapter.ViewHolder>() {
 
     inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
 
-        val msg1Name = itemView.name_1
-        val msg1Msg = itemView.msg_1
-        val msg1Reply = itemView.reply_1
-        val msg1Time = itemView.time_1
+        val msg3Name = itemView.name_3
+        val msg3Msg = itemView.msg_3
+        val msg3Time = itemView.time_3
 
         fun bindViewHolder(msg2: Msg2){
 
-            msg1Name.text = msg2.user.name
-            msg1Msg.text = msg2.content
-            msg1Time.text = msg2.created_at
+            msg3Name.text = msg2.user.name
+            msg3Msg.text = msg2.content
+            msg3Time.text = msg2.created_at
         }
     }
 
