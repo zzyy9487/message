@@ -21,6 +21,8 @@ import com.example.fakebook.addmsg0.AddMsg0Data
 import com.example.fakebook.msg.Msg
 import com.example.fakebook.getmsg1.GetMsg1Body
 import com.example.fakebook.getmsg1.Msg1
+import com.example.fakebook.getmsg2.GetMsg2Body
+import com.example.fakebook.getmsg2.Msg2
 import com.example.fakebook.removegood.RemoveGoodBody
 import com.example.fakebook.removegood.RemoveGoodData
 import com.example.fakebook.say.Say
@@ -42,6 +44,7 @@ class Msg0Fragment : Fragment() {
     lateinit var removeGoodBody: RemoveGoodBody
     lateinit var addMsg0Body: AddMsg0Body
     lateinit var getMsg1Body: GetMsg1Body
+    lateinit var getMsg2Body: GetMsg2Body
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,11 +58,6 @@ class Msg0Fragment : Fragment() {
         msg0_send = rootView.findViewById(R.id.msg0_send)
         recyclerView.layoutManager = LinearLayoutManager(act)
         recyclerView.adapter = msg0Adapter
-
-//        val msg0ListOberser = Observer<MutableList<Msg>> { newList ->
-//            msg0Adapter.updateMSG(newList)
-//        }
-//        act.msgViewModel.msg0List.observe(act, msg0ListOberser)
 
         val sayListOberser = Observer<MutableList<Say>> { newList ->
             msg0Adapter.updateMSG(newList)
@@ -132,8 +130,31 @@ class Msg0Fragment : Fragment() {
                 })
             }
 
-            override fun showMSG2fromcell(msg0id: Int, msg1id: Int) {
+            override fun showMSG2fromMsg0(msg1id: Int) {
+                act.msg1Number = msg1id
+                act.msg2Fragment = Msg2Fragment()
+                getMsg2Body = GetMsg2Body(act.msg1Number)
+                act.apiInterface.getMSG2(getMsg2Body).enqueue(object :retrofit2.Callback<MutableList<Msg2>>{
+                    override fun onFailure(call: Call<MutableList<Msg2>>, t: Throwable) {
+                        Toast.makeText(act, t.toString(), Toast.LENGTH_SHORT).show()
+                    }
 
+                    override fun onResponse(
+                        call: Call<MutableList<Msg2>>,
+                        response: Response<MutableList<Msg2>>
+                    ) {
+                        if (response.isSuccessful){
+                            val data = response.body()
+                            if (data != null){
+                                act.msgViewModel.updateMsg2List(data)
+                            }
+                        }
+                    }
+                })
+                val transactionMsg2fromMsg0 = act.manager.beginTransaction()
+                transactionMsg2fromMsg0.replace(R.id.fragmentLayout, act.msg2Fragment)
+                transactionMsg2fromMsg0.addToBackStack(null)
+                transactionMsg2fromMsg0.commit()
             }
 
         })
@@ -160,7 +181,6 @@ class Msg0Fragment : Fragment() {
             }
             msg0_send.isClickable = true
         }
-
 
         return rootView
     }

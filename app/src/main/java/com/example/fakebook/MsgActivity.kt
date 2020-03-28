@@ -19,6 +19,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class MsgActivity : AppCompatActivity() {
 
@@ -36,6 +40,8 @@ class MsgActivity : AppCompatActivity() {
     var msg0Number = 0
     var msg1Number = 0
     var sayList = mutableListOf<Say>()
+    val user = User(0,"")
+    val likes = mutableListOf<Likes>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +63,31 @@ class MsgActivity : AppCompatActivity() {
         apiInterface = retrofit.create(APIInterface::class.java)
         renewData()
 
+//        val apiTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//        var nowtime = System.currentTimeMillis()
+//        var creattime = LocalDateTime.from(
+//            LocalDate.parse("2020-01-10 12:00:00", apiTimeFormat)
+//        ).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+//        var gap = nowtime - creattime
+//        fun division1000(number: Long):Long{
+//            return number/1000
+//        }
+//
+//        nowtime = System.currentTimeMillis()
+//        creattime = LocalDateTime.from(
+//            LocalDate.parse(say.created_at , apiTimeFormat)
+//        ).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+//        gap = nowtime - creattime
+//        if (division1000(gap) > 86400){
+//            time.text = LocalDateTime.parse(say.created_at, apiTimeFormat).toLocalDate().toString()
+//        } else if (division1000(gap) > 3600){
+//            time.text = (gap/3600).toString() + "小時前"
+//        } else {
+//            time.text = (gap/60).toString() + "分鐘前"
+//        }
+
+
+
     }
 
     fun renewData() {
@@ -74,8 +105,6 @@ class MsgActivity : AppCompatActivity() {
                     if (data != null) {
 //                        msgViewModel.updateMsg0List(data)
                         sayList.clear()
-                        val user = User(0,"")
-                        val likes = mutableListOf<Likes>()
                         for (i in 0 until data.size){
                             if (data[i].comments.size == 0){
                                 sayList.add(

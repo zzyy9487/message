@@ -84,7 +84,7 @@
         android:id="@+id/edit_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/namehint"
+        android:hint="@string/passwordhint"
         android:textSize="25sp"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@id/guideline_V_0.45"

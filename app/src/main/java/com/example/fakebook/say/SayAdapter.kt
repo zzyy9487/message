@@ -21,7 +21,7 @@ class SayAdapter:RecyclerView.Adapter<SayAdapter.ViewHolder>() {
         fun addGood(likeId: Int)
         fun delGood(likeId: Int)
         fun showMSG1(msg0id: Int)
-        fun showMSG2fromcell(msg0id: Int, msg1id: Int)
+        fun showMSG2fromMsg0(msg1id: Int)
     }
 
     fun setclickedListener(checkedListener: clickedListener){
@@ -136,7 +136,7 @@ class SayAdapter:RecyclerView.Adapter<SayAdapter.ViewHolder>() {
             cell1_msg.text = say.content
             cell1_time.text = say.created_at
             cell1_reply.setOnClickListener {
-                itemClickListener?.showMSG2fromcell(say.likes_count, say.id)
+                itemClickListener?.showMSG2fromMsg0(say.id)
             }
         }
 
