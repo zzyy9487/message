@@ -3,6 +3,7 @@ package com.example.fakebook
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MsgActivity : AppCompatActivity() {
 
@@ -42,6 +44,29 @@ class MsgActivity : AppCompatActivity() {
     var sayList = mutableListOf<Say>()
     val user = User(0,"")
     val likes = mutableListOf<Likes>()
+    val apiTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    var apitime = "2020-03-28 10:33:33"
+    var dateTimeFormatter = LocalDateTime.parse(apitime, apiTimeFormat)
+    var createdTime = LocalDateTime.from(dateTimeFormatter).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    var nowtime = System.currentTimeMillis()
+    var mills_1000 = nowtime - createdTime
+    var mill = mills_1000 / 1000
+
+    fun timeTransfer(date: String): String{
+        apitime = date
+        dateTimeFormatter = LocalDateTime.parse(apitime, apiTimeFormat)
+        createdTime = LocalDateTime.from(dateTimeFormatter).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        nowtime = System.currentTimeMillis()
+        mills_1000 = nowtime - createdTime
+        mill = mills_1000 / 1000
+        if (mill > 86400){
+            return LocalDateTime.parse(apitime, apiTimeFormat).toLocalDate().toString()
+        } else if (mill > 3600){
+            return (mill/3600).toString() + "小時前"
+        } else {
+            return (mill/60).toString() + "分鐘前"
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,32 +86,8 @@ class MsgActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiInterface = retrofit.create(APIInterface::class.java)
+
         renewData()
-
-//        val apiTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-//        var nowtime = System.currentTimeMillis()
-//        var creattime = LocalDateTime.from(
-//            LocalDate.parse("2020-01-10 12:00:00", apiTimeFormat)
-//        ).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-//        var gap = nowtime - creattime
-//        fun division1000(number: Long):Long{
-//            return number/1000
-//        }
-//
-//        nowtime = System.currentTimeMillis()
-//        creattime = LocalDateTime.from(
-//            LocalDate.parse(say.created_at , apiTimeFormat)
-//        ).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-//        gap = nowtime - creattime
-//        if (division1000(gap) > 86400){
-//            time.text = LocalDateTime.parse(say.created_at, apiTimeFormat).toLocalDate().toString()
-//        } else if (division1000(gap) > 3600){
-//            time.text = (gap/3600).toString() + "小時前"
-//        } else {
-//            time.text = (gap/60).toString() + "分鐘前"
-//        }
-
-
 
     }
 
@@ -111,7 +112,7 @@ class MsgActivity : AppCompatActivity() {
                                     Say(data[i].id,
                                         data[i].content,
                                         data[i].user_id,
-                                        data[i].created_at,
+                                        timeTransfer(data[i].created_at),
                                         data[i].likes_count,
                                         data[i].likes,
                                         data[i].comments_count,
@@ -124,7 +125,7 @@ class MsgActivity : AppCompatActivity() {
                                     Say(data[i].id,
                                         data[i].content,
                                         data[i].user_id,
-                                        data[i].created_at,
+                                        timeTransfer(data[i].created_at),
                                         data[i].likes_count,
                                         data[i].likes,
                                         data[i].comments_count,
@@ -138,7 +139,7 @@ class MsgActivity : AppCompatActivity() {
                                             Say(data[i].comments[j].id,
                                                 data[i].comments[j].content,
                                                 data[i].comments[j].user_id,
-                                                data[i].comments[j].created_at,
+                                                timeTransfer(data[i].comments[j].created_at),
                                                 data[i].id,
                                                 likes,
                                                 0,
@@ -151,7 +152,7 @@ class MsgActivity : AppCompatActivity() {
                                             Say(data[i].comments[j].id,
                                                 data[i].comments[j].content,
                                                 data[i].comments[j].user_id,
-                                                data[i].comments[j].created_at,
+                                                timeTransfer(data[i].comments[j].created_at),
                                                 data[i].id,
                                                 likes,
                                                 0,
@@ -164,7 +165,7 @@ class MsgActivity : AppCompatActivity() {
                                                 Say(data[i].comments[j].replies[k].id,
                                                     data[i].comments[j].replies[k].content,
                                                     data[i].comments[j].replies[k].user_id,
-                                                    data[i].comments[j].replies[k].created_at,
+                                                    timeTransfer(data[i].comments[j].replies[k].created_at),
                                                     data[i].comments[j].id,
                                                     likes,
                                                     0,
